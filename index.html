@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Meine Links</title>
+  <meta name="description" content="Alle wichtigen Links auf einer Seite." />
+  <meta name="theme-color" content="#111827" />
+  <meta property="og:title" content="Meine Links" />
+  <meta property="og:description" content="Alle wichtigen Links auf einer Seite." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="" />
+  <meta property="og:url" content="" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🔗</text></svg>">
+  <style>
+    :root {
+      --bg: #0b1020;
+      --card: #111827;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --link-bg: #1f2937;
+      --link-bg-hover: #334155;
+      --accent: #60a5fa;
+      --ring: rgba(96,165,250,0.5);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+      /* Removed the original gradient */
+      /* background: linear-gradient(135deg, #6b0f1a, #1f283e); */
+      
+      /* Added background image with a dark overlay */
+      background-image: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('https://images.unsplash.com/photo-1723816033234-cc93b33e59df');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed; /* Keeps the background image static during scroll */
+      
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+    .card {
+      width: 100%;
+      max-width: 680px;
+      background: color-mix(in oklab, var(--card) 96%, transparent);
+      border: 1px solid color-mix(in oklab, var(--card), #ffffff 6%);
+      border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      padding: clamp(20px, 4vw, 36px);
+      backdrop-filter: saturate(1.1) blur(12px);
+    }
+    header {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .avatar {
+      width: 80px; height: 80px;
+      border-radius: 20px;
+      background: var(--link-bg);
+      display: grid; place-items: center;
+      overflow: hidden;
+      border: 1px solid color-mix(in oklab, var(--card), #fff 8%);
+    }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; }
+    h1 { font-size: clamp(22px, 3.2vw, 30px); margin: 0 0 6px 0; }
+    .tagline { margin: 0; color: var(--muted); font-size: 0.98rem; }
+
+    .links { list-style: none; margin: 18px 0 8px 0; padding: 0; display: grid; gap: 12px; }
+    .link {
+      display: grid; grid-template-columns: 28px 1fr auto; gap: 12px; align-items: center;
+      background: var(--link-bg);
+      border: 1px solid color-mix(in oklab, var(--card), #fff 8%);
+      border-radius: 14px;
+      text-decoration: none;
+      color: var(--text);
+      padding: 14px 16px;
+      transition: transform .06s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+    .link:hover { background: var(--link-bg-hover); transform: translateY(-1px); }
+    .link:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--ring); }
+    .link .icon { width: 24px; height: 24px; display: grid; place-items: center; }
+    .link .title { font-weight: 600; }
+    .link .meta { color: var(--muted); font-size: .92rem; }
+
+    footer { margin-top: 20px; color: var(--muted); font-size: .9rem; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+
+    @media (max-width: 520px) {
+      header { grid-template-columns: 60px 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <!--
+    ✦ Einfach anpassen:
+      - Profilbild: <img src="pfad/zum/bild.jpg" alt="" /> in .avatar einsetzen
+      - Name, Beschreibung (h1, .tagline)
+      - Links unten als <a class="link" ...> … </a> duplizieren/ändern
+      - OG- und Favicon-Metadaten pflegen
+  -->
+  <main class="card" role="main">
+    <header>
+      <div class="avatar" aria-hidden="true">
+        <img src="avatar.jpeg" alt="">
+        <!-- Fallback-Icon -->
+      </div>
+      <div>
+        <h1>Nico Ruge</h1>
+        <p class="tagline">Hobbyfotograf - Technik - Politik · Rostock / Darmstadt</p>
+      </div>
+    </header>
+    <nav aria-label="Wichtige Links">
+      <ul class="links">
+        <li>
+          <a class="link" href="https://nico-ruge.de/gallery" target="_blank" rel="noopener noreferrer" aria-label="Website öffnen">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M3 12h18M12 3c2.5 2.7 3.7 5.8 3.7 9s-1.2 6.3-3.7 9c-2.5-2.7-3.7-5.8-3.7-9s1.2-6.3 3.7-9Z" stroke="currentColor" stroke-width="1.6"/>
+              </svg>
+            </span>
+            <span>
+              <div class="title">Website</div>
+              <div class="meta">Portfolio</div>
+            </span>
+            <span aria-hidden="true">↗︎</span>
+          </a>
+        </li>
+        <li>
+          <a class="link" href="https://t.nico-ruge.de" target="_blank" rel="noopener noreferrer" aria-label="Website öffnen">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+                <path d="M13 4v4h3v3h-3v5.5c0 1.5 1 2.5 2.5 2.5.5 0 1-.1 1.5-.3v3c-.7.2-1.4.3-2.1.3-3 0-5-2-5-5V11H8V8h2V4h3z"
+                stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span>
+              <div class="title">Blog</div>
+              <div class="meta">Text Text Text</div>
+            </span>
+            <span aria-hidden="true">↗︎</span>
+          </a>
+        </li>
+        <li>
+          <a class="link" href="https://instagram.com/nicoruge" target="_blank" rel="noopener noreferrer" aria-label="Instagram öffnen">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+                <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.6"/>
+                <circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.6"/>
+                <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
+              </svg>
+            </span>
+            <span>
+              <div class="title">Instagram</div>
+              <div class="meta">@nicoruge</div>
+            </span>
+            <span aria-hidden="true">↗︎</span>
+          </a>
+        </li>
+        <li>
+          <a class="link" href="https://linkedin.com/in/nicoruge" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn öffnen">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+                <path d="M7 10v7M7 7.5v.01M11 17v-4.5c0-1.2 1-2.2 2.2-2.2s2.3 1 2.3 2.2V17" stroke="currentColor" stroke-width="1.6"/>
+                <rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.6"/>
+              </svg>
+            </span>
+            <span>
+              <div class="title">LinkedIn</div>
+              <div class="meta">All things job-related</div>
+            </span>
+            <span aria-hidden="true">↗︎</span>
+          </a>
+        </li>
+        <li>
+          <a class="link" href="https://open.spotify.com/user/nico_ruge?si=d3ccf878732a4e2b" aria-label="Spotify">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M8 9.5c2.4-.5 5.2-.3 7.8.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M8.5 12c2-.4 4.2-.2 6.3.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M9 14.5c1.5-.3 3.2-.2 4.8.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span>
+              <div class="title">Spotify</div>
+              <div class="meta">My Playlists</div>
+            </span>
+            <span aria-hidden="true">→</span>
+          </a>
+        </li>
+        <li>
+          <a class="link" href="mailto:hey@nico-ruge.de" aria-label="E-Mail schreiben">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+                <rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.6"/>
+                <path d="m5 7 7 6 7-6" stroke="currentColor" stroke-width="1.6"/>
+              </svg>
+            </span>
+            <span>
+              <div class="title">E‑Mail</div>
+              <div class="meta">hey@nico-ruge.de</div>
+            </span>
+            <span aria-hidden="true">→</span>
+          </a>
+        </li>
+        <!-- Mehr Links einfach als <li> … </li> hinzufügen -->
+      </ul>
+    </nav>
+
+    <footer>
+      <span>© <span id="year"></span> Nico Ruge</span>
+    </footer>
+  </main>
+
+  <script>
+    // aktuelles Jahr im Footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
