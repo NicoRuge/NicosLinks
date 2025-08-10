@@ -54,13 +54,25 @@
     @supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
       .card { background: var(--card); }
     }
-
-    .theme-toggle { position: absolute; top: 14px; right: 14px; display: inline-grid; place-items: center;
-      width: 40px; height: 40px; border-radius: 12px; background: var(--btn-bg); border: 1px solid var(--btn-border);
-      cursor: pointer; transition: transform .06s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease; }
-    .theme-toggle:hover { transform: translateY(-1px); }
-    .theme-toggle:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--ring); }
+    .card-actions {
+      position: absolute; top: 14px; right: 14px;
+      display: flex; gap: 8px;
+    }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      height: 40px; padding: 0 16px;
+      border-radius: 12px; background: var(--btn-bg); border: 1px solid var(--btn-border);
+      cursor: pointer; transition: transform .06s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+      color: var(--text); text-decoration: none; font-weight: 500;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--ring); }
+    .theme-toggle {
+      width: 40px;
+      padding: 0;
+    }
     .theme-toggle svg { width: 22px; height: 22px; }
+
 
     h1 { margin: 4px 0 16px 0; font-size: clamp(22px, 3.2vw, 30px); }
     p.lead { margin: 0 0 10px 0; color: var(--muted); }
@@ -102,9 +114,12 @@
   </svg>
 
   <main class="card" role="main">
-    <button class="theme-toggle" id="themeToggle" aria-pressed="false" aria-label="Darstellung umschalten" title="Darstellung umschalten">
-      <svg aria-hidden="true"><use id="themeIcon" href="#icon-moon"></use></svg>
-    </button>
+    <div class="card-actions">
+      <a href="index.html" class="btn" title="Zurück zur Startseite">&larr; Zurück</a>
+      <button class="btn theme-toggle" id="themeToggle" aria-pressed="false" aria-label="Darstellung umschalten" title="Darstellung umschalten">
+        <svg aria-hidden="true"><use id="themeIcon" href="#icon-moon"></use></svg>
+      </button>
+    </div>
 
     <h1>Kamera‑Equipment</h1>
     <p class="lead">Übersicht über meine Ausrüstung. (Diese Seite nutzt das gleiche Theme wie die Linkliste, nur ohne Header/Profilbild/Karten.)</p>
@@ -146,8 +161,8 @@
   <div class="group">
     <h2>Speicher</h2>
     <ul class="items">
-      <li><strong>In-Camera</strong>: RAW – SanDisk Extreme Pro 256 GB; JPEG – SanDisk Ultra 32 GB (microSD)</li>
-      <li><strong>Extern</strong>: Samsung T7 500 GB; Western Digital MyBook 4 TB; Google Photos</li>
+      <li><strong>In-Camera</strong>:</p>RAW – SanDisk Extreme Pro 256 GB</p>JPEG – SanDisk Ultra 32 GB (microSD)</li>
+      <li><strong>Extern</strong>:</p>Samsung T7 500 GB</p>Western Digital MyBook 4 TB</p>Google Photos</li>
     </ul>
   </div>
 </section>
