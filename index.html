@@ -130,6 +130,31 @@
     .link .title { font-weight: 700; }
     .link .meta { color: var(--muted); font-size: .92rem; }
 
+    .search-row { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: center; }
+    .search-field {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--btn-border);
+      background: var(--btn-bg);
+      color: var(--text);
+      font-size: 1rem;
+    }
+    .search-field::placeholder { color: var(--muted); }
+    .search-field:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--ring); }
+
+    .link { will-change: transform, background, border-color, box-shadow; }
+    :root:not([data-theme="light"]) .link:hover {
+      background: color-mix(in oklab, var(--link-bg), #ffffff 8%);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+      border-color: color-mix(in oklab, var(--card), #ffffff 16%);
+    }
+    [data-theme="light"] .link:hover { 
+      background: color-mix(in oklab, var(--link-bg), #000000 6%);
+      box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+      border-color: color-mix(in oklab, var(--card), #000000 8%);
+    }
+
     .copy-btn {
       appearance: none;
       border: 1px solid var(--btn-border);
@@ -224,6 +249,17 @@
             </span>
             <span aria-hidden="true"></span>
           </a>
+        </li>
+        <li>
+          <div class="search-row" role="search" aria-label="Links durchsuchen">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" role="img" aria-label="Lupe">
+                <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.6"/>
+                <line x1="16.5" y1="16.5" x2="22" y2="22" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <input id="linkSearch" class="search-field" type="search" placeholder="Search..." aria-controls="linksList" />
+          </div>
         </li>
 
         <li>
@@ -325,11 +361,32 @@
           </a>
           <span class="copy-hint" aria-live="polite" id="copyStatus"></span>
         </li>
+        <li>
+          <a class="link" href="nicoruge.vcf" download aria-label="vCard herunterladen">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" role="img" aria-label="Kontaktkarte">
+                <rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.6"/>
+                <circle cx="9" cy="12" r="2.2" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M12.5 15.5c-1-1.4-2.2-2-3.5-2s-2.5.6-3.5 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span>
+              <div class="title">vCard</div>
+              <div class="meta">Kontaktdaten speichern</div>
+            </span>
+            <span class="icon" aria-hidden="true">
+              <svg width="22" height="22" fill="none"><use href="#icon-navigate"></use></svg>
+            </span>
+            <span aria-hidden="true"></span>
+          </a>
+        </li>
       </ul>
     </nav>
 
     <footer>
       <span>© <span id="year"></span> Nico Ruge</span>
+      <span aria-hidden="true">·</span>
+      <span id="clock" aria-label="Datum und Uhrzeit in Berlin"></span>
     </footer>
   </main>
 
@@ -341,7 +398,6 @@
       const icon = document.getElementById('themeIcon');
 
       const saved = localStorage.getItem('theme');
-      const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
       function apply(theme){
         root.setAttribute('data-theme', theme);
@@ -350,7 +406,7 @@
         document.querySelector('meta[name="theme-color"]').setAttribute('content', theme === 'dark' ? '#111827' : '#ffffff');
       }
 
-      let initial = saved || (systemDark ? 'dark' : 'light');
+      let initial = saved || 'dark';
       apply(initial);
 
       btn.addEventListener('click', () => {
@@ -359,12 +415,6 @@
         apply(next);
         try { localStorage.setItem('theme', next); } catch (e) {}
       });
-
-      if (!saved && window.matchMedia) {
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-          apply(e.matches ? 'dark' : 'light');
-        });
-      }
     })();
 
     (function(){
@@ -390,6 +440,41 @@
           setTimeout(() => status.textContent = '', 1600);
         }
       });
+    })();
+
+    // --- Link search ---
+    (function(){
+      const input = document.getElementById('linkSearch');
+      const list = document.querySelector('.links');
+      if(!input || !list) return;
+
+      function normalize(s){ return (s || '').toLowerCase(); }
+
+      input.addEventListener('input', () => {
+        const q = normalize(input.value);
+        const items = Array.from(list.querySelectorAll(':scope > li'));
+        // Keep the first item (Website) and the search row always visible
+        const keep = new Set([items[0], input.closest('li')]);
+        items.forEach(li => {
+          if (keep.has(li)) { li.style.display = ''; return; }
+          const text = normalize(li.textContent);
+          li.style.display = q && !text.includes(q) ? 'none' : '';
+        });
+      });
+    })();
+
+    // --- Berlin clock ---
+    (function(){
+      const el = document.getElementById('clock');
+      if(!el) return;
+      const fmt = new Intl.DateTimeFormat('de-DE', {
+        timeZone: 'Europe/Berlin',
+        weekday: 'short', day: '2-digit', month: '2-digit', year: 'numeric',
+        hour: '2-digit', minute: '2-digit', second: '2-digit'
+      });
+      function tick(){ el.textContent = fmt.format(new Date()); }
+      tick();
+      setInterval(tick, 1000);
     })();
   </script>
 </body>
