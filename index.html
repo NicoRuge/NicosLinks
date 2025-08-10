@@ -29,14 +29,10 @@
       margin: 0;
       font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
       color: var(--text);
-      /* Removed the original gradient */
-      /* background: linear-gradient(135deg, #6b0f1a, #1f283e); */
-      
-      /* Added background image with a dark overlay */
       background-image: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('https://images.unsplash.com/photo-1723816033234-cc93b33e59df');
       background-size: cover;
       background-position: center;
-      background-attachment: fixed; /* Keeps the background image static during scroll */
+      background-attachment: fixed;
       
       display: grid;
       place-items: center;
@@ -55,7 +51,8 @@
     header {
       display: grid;
       grid-template-columns: 80px 1fr;
-      gap: 16px;
+      /* --- CHANGE: Increased gap for better spacing --- */
+      gap: 24px;
       align-items: center;
       margin-bottom: 18px;
     }
@@ -92,6 +89,11 @@
 
     @media (max-width: 520px) {
       header { grid-template-columns: 60px 1fr; }
+      .avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 16px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -100,18 +102,10 @@
   </style>
 </head>
 <body>
-  <!--
-    ✦ Einfach anpassen:
-      - Profilbild: <img src="pfad/zum/bild.jpg" alt="" /> in .avatar einsetzen
-      - Name, Beschreibung (h1, .tagline)
-      - Links unten als <a class="link" ...> … </a> duplizieren/ändern
-      - OG- und Favicon-Metadaten pflegen
-  -->
   <main class="card" role="main">
     <header>
       <div class="avatar" aria-hidden="true">
         <img src="avatar.jpeg" alt="">
-        <!-- Fallback-Icon -->
       </div>
       <div>
         <h1>Nico Ruge</h1>
@@ -213,7 +207,6 @@
             <span aria-hidden="true">→</span>
           </a>
         </li>
-        <!-- Mehr Links einfach als <li> … </li> hinzufügen -->
       </ul>
     </nav>
 
@@ -223,7 +216,6 @@
   </main>
 
   <script>
-    // aktuelles Jahr im Footer
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
