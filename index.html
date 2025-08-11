@@ -495,6 +495,24 @@
       tick();
       setInterval(tick, 1000);
     })();
+
+    // --- Lock card min-height to initial height so filtering doesn't shrink it ---
+    (function(){
+      const card = document.querySelector('.card');
+      if (!card) return;
+      function lockMinHeight(){
+        // Measure after fonts/images loaded to capture the full layout height
+        const h = card.offsetHeight;
+        if (h > 0) {
+          card.style.minHeight = h + 'px';
+        }
+      }
+      if (document.readyState === 'complete') {
+        lockMinHeight();
+      } else {
+        window.addEventListener('load', lockMinHeight, { once: true });
+      }
+    })();
   </script>
 </body>
 </html>
