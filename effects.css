@@ -1,0 +1,219 @@
+/* ===== Theme Vars ===== */
+:root {
+  --bg: #0b1020;
+  --card: #111827;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --link-bg: #1f2937;
+  --link-bg-hover: #334155;
+  --accent: #60a5fa;
+  --ring: rgba(96,165,250,0.5);
+  --btn-bg: #0f172a;
+  --btn-border: color-mix(in oklab, var(--card), #ffffff 14%);
+}
+[data-theme="light"] {
+  --bg: #f3f4f6;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #475569;
+  --link-bg: #ffffff;
+  --link-bg-hover: #f3f4f6;
+  --accent: #2563eb;
+  --ring: rgba(37,99,235,0.3);
+  --btn-bg: #ffffff;
+  --btn-border: #e5e7eb;
+}
+
+/* ===== Base ===== */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  color: var(--text);
+  background-color: var(--bg);
+  background-image: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('https://images.unsplash.com/photo-1723816033234-cc93b33e59df?auto=format&fit=crop&w=1800&q=80');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+/* ===== Card ===== */
+.card {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  background: color-mix(in oklab, var(--card) 96%, transparent);
+  border: 1px solid color-mix(in oklab, var(--card), #ffffff 8%);
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  padding: clamp(20px, 4vw, 36px);
+  backdrop-filter: saturate(1.1) blur(12px);
+  z-index: 1; /* over bg animations */
+}
+@supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
+  .card { background: var(--card); }
+}
+
+/* ===== Theme Toggle ===== */
+.theme-toggle {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: inline-grid;
+  place-items: center;
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  background: var(--btn-bg);
+  border: 1px solid var(--btn-border);
+  cursor: pointer;
+  transition: transform .06s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.theme-toggle:hover { transform: translateY(-1px); }
+.theme-toggle:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--ring); }
+.theme-toggle svg { width: 22px; height: 22px; }
+
+/* ===== Header ===== */
+header {
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.avatar {
+  width: 84px; height: 84px; border-radius: 20px;
+  background: var(--link-bg);
+  display: grid; place-items: center;
+  overflow: hidden;
+  border: 1px solid color-mix(in oklab, var(--card), #fff 8%);
+}
+.avatar img { width: 100%; height: 100%; object-fit: cover; display:block; }
+h1 { font-size: clamp(22px, 3.2vw, 30px); margin: 0 0 4px 0; }
+.tagline { margin: 0; color: var(--muted); font-size: 0.98rem; }
+
+/* ===== Links / Cards ===== */
+.links { list-style: none; margin: 18px 0 8px 0; padding: 0; display: grid; gap: 12px; }
+.link {
+  display: grid; grid-template-columns: 28px 1fr auto auto; gap: 12px; align-items: center;
+  background: var(--link-bg);
+  border: 1px solid color-mix(in oklab, var(--card), #fff 8%);
+  border-radius: 14px;
+  text-decoration: none;
+  color: var(--text);
+  padding: 14px 16px;
+  transition: transform .06s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+  will-change: transform, background, border-color, box-shadow;
+  position: relative; /* for ripple */
+  overflow: hidden;   /* for ripple */
+}
+.link:hover { background: var(--link-bg-hover); transform: translateY(-1px); }
+.link:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--ring); }
+.link .icon { width: 24px; height: 24px; display: grid; place-items: center; }
+.link .title { font-weight: 700; }
+.link .meta { color: var(--muted); font-size: .92rem; }
+
+/* Magnetic hover enabling */
+.link.magnet {
+  will-change: transform, box-shadow;
+  transform-style: preserve-3d;
+}
+
+/* Hover elevation details per theme */
+:root:not([data-theme="light"]) .link:hover {
+  background: color-mix(in oklab, var(--link-bg), #ffffff 8%);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  border-color: color-mix(in oklab, var(--card), #ffffff 16%);
+}
+[data-theme="light"] .link:hover { 
+  background: color-mix(in oklab, var(--link-bg), #000000 6%);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+  border-color: color-mix(in oklab, var(--card), #000000 8%);
+}
+
+/* ===== Search ===== */
+.search-row { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: center; }
+.search-field {
+  width: 100%; padding: 12px 14px; border-radius: 12px;
+  border: 1px solid var(--btn-border); background: var(--btn-bg);
+  color: var(--text); font-size: 1rem;
+}
+.search-field::placeholder { color: var(--muted); }
+.search-field:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--ring); }
+
+/* ===== Copy Button ===== */
+.copy-btn {
+  appearance: none;
+  border: 1px solid var(--btn-border);
+  background: var(--btn-bg);
+  color: inherit;
+  border-radius: 10px;
+  padding: 6px;
+  display: inline-grid; place-items: center;
+  cursor: pointer;
+  transition: transform .06s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.copy-btn:hover { transform: translateY(-1px); }
+.copy-btn:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--ring); }
+.copy-btn svg { width: 18px; height: 18px; }
+.copy-hint { position: absolute; height: 1px; width: 1px; overflow: hidden; clip: rect(1px,1px,1px,1px); }
+
+/* ===== Footer ===== */
+footer { margin-top: 20px; color: var(--muted); font-size: .9rem; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+
+/* ===== Background camera layer ===== */
+.bg-icons {
+  position: fixed; inset: 0; width: 100%; height: 100%;
+  z-index: 0; pointer-events: none;
+}
+.bg-icons use {
+  color: var(--text);
+  opacity: 0.12; /* base opacity; instance adds variation */
+  vector-effect: non-scaling-stroke;
+}
+.bg-icons .cam {
+  animation-name: float-up;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+@keyframes float-up {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-220vh); }
+}
+
+/* ===== Effects: Ripple & Glow ===== */
+.ripple { position: absolute; inset: 0; pointer-events: none; }
+.ripple::after {
+  content: ""; position: absolute; border-radius: 50%;
+  width: 10px; height: 10px;
+  transform: translate(-50%, -50%) scale(0);
+  background: currentColor; opacity: .25;
+  animation: ripple .6s ease-out;
+}
+.ripple.run::after { left: var(--rx); top: var(--ry); }
+@keyframes ripple {
+  to { transform: translate(-50%, -50%) scale(20); opacity: 0; }
+}
+/* Pulsierender Glow-Effekt für Titel */
+.link:hover .title { animation: glowPulse 1.5s ease-in-out infinite; }
+@keyframes glowPulse {
+  0%   { text-shadow: 0 0 8px var(--accent), 0 0 14px var(--accent); }
+  50%  { text-shadow: 0 0 16px var(--accent), 0 0 26px var(--accent); }
+  100% { text-shadow: 0 0 8px var(--accent), 0 0 14px var(--accent); }
+}
+
+/* ===== Media & A11y ===== */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+  .bg-icons { display: none; }
+  .link.magnet { transform: none !important; }
+}
+@media (prefers-contrast: more) { .link { border-color: var(--accent); } }
+@media (max-width: 520px) {
+  header { grid-template-columns: 64px 1fr; gap: 16px; }
+  .avatar { width: 64px; height: 64px; border-radius: 16px; }
+}

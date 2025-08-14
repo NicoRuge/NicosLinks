@@ -19,197 +19,7 @@
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🔗</text></svg>">
 
-  <style>
-    :root {
-      --bg: #0b1020;
-      --card: #111827;
-      --text: #e5e7eb;
-      --muted: #9ca3af;
-      --link-bg: #1f2937;
-      --link-bg-hover: #334155;
-      --accent: #60a5fa;
-      --ring: rgba(96,165,250,0.5);
-      --btn-bg: #0f172a;
-      --btn-border: color-mix(in oklab, var(--card), #ffffff 14%);
-    }
-
-    [data-theme="light"] {
-      --bg: #f3f4f6;
-      --card: #ffffff;
-      --text: #0f172a;
-      --muted: #475569;
-      --link-bg: #ffffff;
-      --link-bg-hover: #f3f4f6;
-      --accent: #2563eb;
-      --ring: rgba(37,99,235,0.3);
-      --btn-bg: #ffffff;
-      --btn-border: #e5e7eb;
-    }
-
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      margin: 0;
-      font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      color: var(--text);
-      background-color: var(--bg);
-      background-image: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('https://images.unsplash.com/photo-1723816033234-cc93b33e59df?auto=format&fit=crop&w=1800&q=80');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      display: grid;
-      place-items: center;
-      padding: 24px;
-    }
-
-    .card {
-      position: relative;
-      width: 100%;
-      max-width: 720px;
-      background: color-mix(in oklab, var(--card) 96%, transparent);
-      border: 1px solid color-mix(in oklab, var(--card), #ffffff 8%);
-      border-radius: 24px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-      padding: clamp(20px, 4vw, 36px);
-      backdrop-filter: saturate(1.1) blur(12px);
-      z-index: 1; /* Ensure card is above background animation */
-    }
-    @supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
-      .card { background: var(--card); }
-    }
-
-    .theme-toggle {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      display: inline-grid;
-      place-items: center;
-      width: 40px; height: 40px;
-      border-radius: 12px;
-      background: var(--btn-bg);
-      border: 1px solid var(--btn-border);
-      cursor: pointer;
-      transition: transform .06s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
-    }
-    .theme-toggle:hover { transform: translateY(-1px); }
-    .theme-toggle:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--ring); }
-    .theme-toggle svg { width: 22px; height: 22px; }
-
-    header {
-      display: grid;
-      grid-template-columns: 84px 1fr;
-      gap: 20px;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-    .avatar {
-      width: 84px; height: 84px;
-      border-radius: 20px;
-      background: var(--link-bg);
-      display: grid; place-items: center;
-      overflow: hidden;
-      border: 1px solid color-mix(in oklab, var(--card), #fff 8%);
-    }
-    .avatar img { width: 100%; height: 100%; object-fit: cover; display:block; }
-    h1 { font-size: clamp(22px, 3.2vw, 30px); margin: 0 0 4px 0; }
-    .tagline { margin: 0; color: var(--muted); font-size: 0.98rem; }
-
-    .links { list-style: none; margin: 18px 0 8px 0; padding: 0; display: grid; gap: 12px; }
-    .link {
-      display: grid; grid-template-columns: 28px 1fr auto auto; gap: 12px; align-items: center;
-      background: var(--link-bg);
-      border: 1px solid color-mix(in oklab, var(--card), #fff 8%);
-      border-radius: 14px;
-      text-decoration: none;
-      color: var(--text);
-      padding: 14px 16px;
-      transition: transform .06s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
-    }
-    .link:hover { background: var(--link-bg-hover); transform: translateY(-1px); }
-    .link:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--ring); }
-    .link .icon { width: 24px; height: 24px; display: grid; place-items: center; }
-    .link .title { font-weight: 700; }
-    .link .meta { color: var(--muted); font-size: .92rem; }
-
-    .search-row { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: center; }
-    .search-field {
-      width: 100%;
-      padding: 12px 14px;
-      border-radius: 12px;
-      border: 1px solid var(--btn-border);
-      background: var(--btn-bg);
-      color: var(--text);
-      font-size: 1rem;
-    }
-    .search-field::placeholder { color: var(--muted); }
-    .search-field:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--ring); }
-
-    .link { will-change: transform, background, border-color, box-shadow; }
-    :root:not([data-theme="light"]) .link:hover {
-      background: color-mix(in oklab, var(--link-bg), #ffffff 8%);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-      border-color: color-mix(in oklab, var(--card), #ffffff 16%);
-    }
-    [data-theme="light"] .link:hover { 
-      background: color-mix(in oklab, var(--link-bg), #000000 6%);
-      box-shadow: 0 8px 22px rgba(0,0,0,0.08);
-      border-color: color-mix(in oklab, var(--card), #000000 8%);
-    }
-
-    .copy-btn {
-      appearance: none;
-      border: 1px solid var(--btn-border);
-      background: var(--btn-bg);
-      color: inherit;
-      border-radius: 10px;
-      padding: 6px;
-      display: inline-grid;
-      place-items: center;
-      cursor: pointer;
-      transition: transform .06s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
-    }
-    .copy-btn:hover { transform: translateY(-1px); }
-    .copy-btn:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--ring); }
-    .copy-btn svg { width: 18px; height: 18px; }
-    .copy-hint { position: absolute; height: 1px; width: 1px; overflow: hidden; clip: rect(1px,1px,1px,1px); }
-
-    footer { margin-top: 20px; color: var(--muted); font-size: .9rem; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
-
-    @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
-    @media (prefers-contrast: more) { .link { border-color: var(--accent); } }
-
-    @media (max-width: 520px) {
-      header { grid-template-columns: 64px 1fr; gap: 16px; }
-      .avatar { width: 64px; height: 64px; border-radius: 16px; }
-    }
-
-    .bg-icons {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0; /* behind the .card */
-      pointer-events: none;
-    }
-    .bg-icons use {
-      color: var(--text);
-      opacity: 0.12; /* slightly less transparent */
-      vector-effect: non-scaling-stroke;
-    }
-    .bg-icons .cam {
-      animation-name: float-up;
-      animation-timing-function: linear;
-      animation-iteration-count: infinite;
-      will-change: transform;
-    }
-    @keyframes float-up {
-      from { transform: translateY(0); }
-      to   { transform: translateY(-220vh); }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .bg-icons { display: none; }
-    }
-  </style>
+  <link rel="stylesheet" href="effects.css">
 </head>
 <body>
 
@@ -472,6 +282,70 @@
         try { localStorage.setItem('theme', next); } catch (e) {}
       });
     })();
+    // Subtiles Parallax-Scrolling des Body-Hintergrunds – respektiert reduced motion
+    (function(){
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce) return;
+      let ticking = false;
+      function onScroll(){
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            const y = window.scrollY || document.documentElement.scrollTop || 0;
+            document.body.style.backgroundPosition = `center calc(50% + ${Math.round(y * 0.2)}px)`;
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+    })();
+    // Magnetic hover auf gesamten .link-Karten (Cursor steuert leichte Verschiebung/Tilt)
+    (function(){
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce) return;
+
+      const links = Array.from(document.querySelectorAll('.links .link'));
+      const MAX_TRANSLATE = 6; // px
+      const MAX_TILT = 3;      // deg
+
+      links.forEach(link => {
+        link.classList.add('magnet');
+        let raf = null;
+        let targetTx = 0, targetTy = 0, targetRx = 0, targetRy = 0;
+
+        function apply(){
+          raf = null;
+          link.style.transform =
+            `translate3d(${targetTx}px, ${targetTy}px, 0) rotateX(${targetRx}deg) rotateY(${targetRy}deg)`;
+        }
+
+        function onMove(e){
+          const rect = link.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width;
+          const y = (e.clientY - rect.top) / rect.height;
+          const nx = (x - 0.5) * 2;
+          const ny = (y - 0.5) * 2;
+
+          targetTx = Math.max(-MAX_TRANSLATE, Math.min(MAX_TRANSLATE, nx * MAX_TRANSLATE));
+          targetTy = Math.max(-MAX_TRANSLATE, Math.min(MAX_TRANSLATE, ny * MAX_TRANSLATE));
+          targetRy = -nx * MAX_TILT;
+          targetRx =  ny * MAX_TILT;
+
+          if (!raf) raf = requestAnimationFrame(apply);
+        }
+
+        function onLeave(){
+          targetTx = targetTy = targetRx = targetRy = 0;
+          if (!raf) raf = requestAnimationFrame(apply);
+        }
+
+        link.addEventListener('mousemove', onMove);
+        link.addEventListener('mouseleave', onLeave);
+        link.addEventListener('touchstart', onLeave, { passive: true });
+        link.addEventListener('touchend', onLeave, { passive: true });
+      });
+    })();
 
     (function(){
       const btn = document.getElementById('copyEmailBtn');
@@ -580,7 +454,7 @@
           const u = document.createElementNS(NS, 'use');
           u.setAttribute('href', '#icon-camera');
           // random size between 14 and 24 px
-          const size = 19 + Math.random() * 10; // 14–24 px, a bit bigger
+          const size = 14 + Math.random() * 10; // 14–24 px
           u.setAttribute('width', size);
           u.setAttribute('height', size);
           // random horizontal position
@@ -607,6 +481,26 @@
 
       populate();
       window.addEventListener('resize', onResize);
+    })();
+    // Ripple click effect on links
+    (function(){
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce) return;
+      document.querySelectorAll('.link').forEach(el => {
+        el.addEventListener('click', e => {
+          let layer = el.querySelector('.ripple');
+          if (!layer) {
+            layer = document.createElement('span');
+            layer.className = 'ripple';
+            el.appendChild(layer);
+          }
+          layer.classList.remove('run');
+          layer.style.setProperty('--rx', e.offsetX + 'px');
+          layer.style.setProperty('--ry', e.offsetY + 'px');
+          void layer.offsetWidth; // restart animation
+          layer.classList.add('run');
+        });
+      });
     })();
   </script>
 </body>
