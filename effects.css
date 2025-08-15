@@ -58,6 +58,31 @@ body {
   .card { background: var(--card); }
 }
 
+/* === Two-column grid for link cards (search stays full width) === */
+.links {
+  display: grid;
+  grid-template-columns: 1fr; /* mobil: einspaltig */
+  gap: 12px; /* Abstand zwischen Karten */
+}
+
+/* Karte füllt Rasterzelle vollständig */
+.links > li > .link {
+  display: block;
+  height: 100%;
+}
+
+/* Suchzeile über volle Breite */
+.links > li.links-search {
+  grid-column: 1 / -1;
+}
+
+/* ab 640px: zweispaltig */
+@media (min-width: 640px) {
+  .links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 /* ===== Theme Toggle ===== */
 .theme-toggle {
   position: absolute;
@@ -216,4 +241,44 @@ footer { margin-top: 20px; color: var(--muted); font-size: .9rem; display: flex;
 @media (max-width: 520px) {
   header { grid-template-columns: 64px 1fr; gap: 16px; }
   .avatar { width: 64px; height: 64px; border-radius: 16px; }
+}
+
+/* === Navigate-Icon unten rechts in Karten platzieren === */
+.links .link {
+  position: relative;       /* Bezugspunkt für das absolute Icon */
+  padding-right: 56px;      /* Platz rechts für das Icon */
+  padding-bottom: 14px;     /* etwas Platz nach unten */
+}
+
+.links .link .nav-icon {
+  position: absolute;
+  right: 14px;
+  bottom: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;     /* Klicks gehen an die Karte */
+  opacity: 0.9;
+}
+
+/* Karten mit Copy-Button brauchen etwas mehr rechten Platz */
+.links .link:has(.copy-btn) {
+  padding-right: 96px;
+}
+
+/* Karte über volle Breite (wie die Suchleiste) */
+.links > li.links-wide {
+  grid-column: 1 / -1;
+}
+/* Abstand zwischen vorderem Icon und Text (Titel/Meta) */
+.links .link > .icon:first-child {
+  margin-right: 12px;  /* Abstand neben dem Icon */
+  flex: 0 0 auto;      /* Icon behält seine Größe */
+}
+
+/* Saubere vertikale Anordnung von Titel + Meta */
+.links .link > span:nth-of-type(2) {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2px;
 }
